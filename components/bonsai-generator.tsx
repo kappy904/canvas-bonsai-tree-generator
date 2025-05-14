@@ -307,7 +307,7 @@ export default function BonsaiGenerator() {
                       className={cn(
                         "group relative overflow-hidden rounded-xl p-1 transition-all",
                         JSON.stringify(params) === JSON.stringify(preset)
-                          ? "ring-2 ring-white shadow-lg"
+                          ? "ring-2 ring-amber-500 shadow-lg"
                           : "hover:ring-1 hover:ring-white/50",
                       )}
                       onClick={() => applyPreset(key as keyof typeof PRESETS)}
@@ -397,8 +397,8 @@ export default function BonsaiGenerator() {
                       </div>
 
                       {/* Background decorative elements */}
-                      <div className="absolute top-0 right-0 w-16 h-16 bg-forest-500/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-                      <div className="absolute bottom-0 left-0 w-8 h-8 bg-forest-600/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+                      <div className="absolute top-0 right-0 w-16 h-16 bg-amber-500 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                      <div className="absolute bottom-0 left-0 w-8 h-8 bg-amber-500 rounded-full translate-y-1/2 -translate-x-1/2"></div>
                     </button>
                   ))}
                 </div>

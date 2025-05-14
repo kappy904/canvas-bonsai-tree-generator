@@ -16,11 +16,11 @@ export default function Home() {
           {/* Header section with creative typography */}
           <div className="mb-8 relative">
             <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-2 gradient-text">
-              DIGITAL
+              <span className="gradient-text">DIGITAL</span>
               <br />
-              BONSAI
+              <span className="gradient-text">BONSAI</span>
             </h1>
-            <div className="w-24 h-1 bg-white mb-3"></div>
+            <div className="w-24 h-1 bg-amber-500 mb-3"></div>
             <p className="text-base md:text-lg text-forest-100 max-w-xl">
               Create your own unique digital bonsai masterpiece with our interactive generator. Shape, grow, and
               customize your perfect tree.
