@@ -102,30 +102,6 @@
   border-radius: 30px;
 }
 
-.canvas-container::before {
-  content: "";
-  position: absolute;
-  top: -50px;
-  right: -50px;
-  width: 100px;
-  height: 100px;
-  background-color: white;
-  transform: rotate(45deg);
-  z-index: 10;
-}
-
-.canvas-container::after {
-  content: "";
-  position: absolute;
-  bottom: -30px;
-  left: 30%;
-  width: 60px;
-  height: 60px;
-  background-color: white;
-  transform: rotate(45deg);
-  z-index: 10;
-}
-
 .slider-track {
   height: 4px;
   background-color: #e5e7eb;

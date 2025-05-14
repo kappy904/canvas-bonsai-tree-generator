@@ -2,7 +2,7 @@ import BonsaiGenerator from "@/components/bonsai-generator"
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-forest-800 via-forest-700 to-forest-900 text-white overflow-hidden relative">
+    <main className="min-h-screen bg-black text-white overflow-hidden relative">
       {/* Decorative elements */}
       <div className="absolute top-20 left-10 w-32 h-32 bg-forest-600/20 rounded-full blur-3xl"></div>
       <div className="absolute bottom-20 right-10 w-48 h-48 bg-forest-500/10 rounded-full blur-3xl"></div>
@@ -25,13 +25,6 @@ export default function Home() {
               Create your own unique digital bonsai masterpiece with our interactive generator. Shape, grow, and
               customize your perfect tree.
             </p>
-
-            {/* Decorative arrow */}
-            <div className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2">
-              <svg width="120" height="16" viewBox="0 0 180 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 12H178M178 12L166 1M178 12L166 23" stroke="white" strokeWidth="2" />
-              </svg>
-            </div>
           </div>
 
           <BonsaiGenerator />

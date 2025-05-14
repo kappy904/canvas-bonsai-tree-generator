@@ -88,7 +88,7 @@ const LEAF_COLORS = [
 export default function BonsaiGenerator() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [params, setParams] = useState<TreeParams>(PRESETS.formal)
-  const [activeTab, setActiveTab] = useState("controls")
+  const [activeTab, setActiveTab] = useState("presets")
 
   // Update a single parameter
   const updateParam = (key: keyof TreeParams, value: any) => {
@@ -145,13 +145,13 @@ export default function BonsaiGenerator() {
 
     // Draw tree
     const startX = canvas.width / 2
-    const startY = canvas.height - 100 // Adjusted position without pot
+    const startY = canvas.height - 10 
     const angle = -90 + params.windEffect / 2
 
     // Draw trunk
     ctx.save()
     ctx.translate(startX, startY)
-    drawBranch(ctx, 0, 0, params.treeHeight, angle, params.trunkThickness, 0, params)
+    drawBranch(ctx, 0, 0, params.treeHeight * 1.5, angle, params.trunkThickness, 0, params)
     ctx.restore()
   }, [params])
 
@@ -239,15 +239,11 @@ export default function BonsaiGenerator() {
     }
   }
 
-  // Update the return JSX to make UI smaller and fix contrast issues, and remove pot-related UI
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
       {/* Canvas section */}
       <div className="lg:col-span-7 order-2 lg:order-1">
         <div className="relative">
-          {/* Circular blob background */}
-          <div className="absolute -top-5 -left-5 w-20 h-20 bg-forest-500/20 rounded-full blur-xl"></div>
-          <div className="absolute -bottom-5 -right-5 w-30 h-30 bg-forest-600/20 rounded-full blur-xl"></div>
 
           {/* Canvas container with decorative elements */}
           <div className="canvas-container bg-white relative z-10 shadow-[0_10px_25px_rgba(0,0,0,0.3)]">
@@ -287,19 +283,127 @@ export default function BonsaiGenerator() {
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid grid-cols-2 mb-4 bg-forest-800/50 p-1 rounded-full w-full max-w-xs mx-auto">
+            <TabsTrigger
+                value="presets"
+                className="rounded-full data-[state=active]:bg-white data-[state=active]:text-forest-800 text-white"
+              >
+                Presets
+              </TabsTrigger>
               <TabsTrigger
                 value="controls"
                 className="rounded-full data-[state=active]:bg-white data-[state=active]:text-forest-800 text-white"
               >
                 Controls
               </TabsTrigger>
-              <TabsTrigger
-                value="presets"
-                className="rounded-full data-[state=active]:bg-white data-[state=active]:text-forest-800 text-white"
-              >
-                Presets
-              </TabsTrigger>
             </TabsList>
+
+            <TabsContent value="presets" className="mt-2">
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 shadow-lg">
+                <h3 className="text-lg font-bold mb-3 text-forest-100">Bonsai Styles</h3>
+                <div className="grid grid-cols-1 gap-3">
+                  {Object.entries(PRESETS).map(([key, preset]) => (
+                    <button
+                      key={key}
+                      className={cn(
+                        "group relative overflow-hidden rounded-xl p-1 transition-all",
+                        JSON.stringify(params) === JSON.stringify(preset)
+                          ? "ring-2 ring-white shadow-lg"
+                          : "hover:ring-1 hover:ring-white/50",
+                      )}
+                      onClick={() => applyPreset(key as keyof typeof PRESETS)}
+                    >
+                      <div
+                        className={cn(
+                          "relative z-10 bg-gradient-to-r from-forest-900/80 to-forest-800/80 rounded-lg p-3 text-left",
+                          JSON.stringify(params) === JSON.stringify(preset)
+                            ? "from-forest-700/90 to-forest-600/90"
+                            : "group-hover:from-forest-800/90 group-hover:to-forest-700/90",
+                        )}
+                      >
+                        <div className="flex items-start gap-3">
+                          <div className="w-10 h-10 rounded-full bg-forest-500/20 flex items-center justify-center">
+                            {/* Bonsai style icon preview */}
+                            <svg
+                              width="32"
+                              height="32"
+                              viewBox="0 0 32 32"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="w-7 h-7"
+                            >
+                              {/* Trunk */}
+                              {key === "formal" && (
+                                <>
+                                  {/* Creative Formal Icon */}
+                                  <rect x="15" y="10" width="2" height="14" rx="1" fill="#795548" /> {/* Trunk */}
+                                  <ellipse cx="16" cy="8" rx="7" ry="5" fill={preset.leafColor} /> {/* Top foliage */}
+                                  <rect x="11" y="13" width="10" height="1.5" rx="0.75" fill="#795548" /> {/* Branch 1 */}
+                                  <ellipse cx="16" cy="13.75" rx="6" ry="3" fill={preset.leafColor} /> {/* Foliage for branch 1 */}
+                                  <rect x="12" y="17" width="8" height="1.5" rx="0.75" fill="#795548" /> {/* Branch 2 */}
+                                  <ellipse cx="16" cy="17.75" rx="5" ry="2.5" fill={preset.leafColor} /> {/* Foliage for branch 2 */}
+                                </>
+                              )}
+                              {key === "slanting" && (
+                                <>
+                                  {/* Creative Slanting Icon */}
+                                  <path d="M12 24 Q16 22 19 15 Q21 10 19 6" stroke="#795548" strokeWidth="2.5" fill="none" transform="rotate(-30 16 16)" />
+                                  <ellipse cx="14" cy="10" rx="6" ry="4" fill={preset.leafColor} transform="rotate(-30 16 16) translate(-2, 0)" />
+                                  <ellipse cx="12" cy="14" rx="5" ry="3" fill={preset.leafColor} transform="rotate(-30 16 16) translate(-2, 0)" />
+                                </>
+                              )}
+                              {key === "cascade" && (
+                                <>
+                                  {/* Creative Cascade Icon */}
+                                  <path d="M16 8 L16 15 C 16 15, 14 17, 10 19 L10 22 L22 27" stroke="#795548" strokeWidth="2.5" fill="none"/>
+                                  <ellipse cx="22" cy="28" rx="6" ry="4" fill={preset.leafColor} />
+                                  <ellipse cx="16" cy="24" rx="5" ry="3" fill={preset.leafColor} />
+                                  <ellipse cx="10" cy="20" rx="4" ry="2.5" fill={preset.leafColor} />
+                                </>
+                              )}
+                              {key === "literati" && (
+                                <>
+                                  {/* Creative Literati Icon */}
+                                  <path d="M16 25 C 20 20, 12 18, 16 12 C 20 8, 15 5, 16 5" stroke="#795548" strokeWidth="2" fill="none" />
+                                  <circle cx="16" cy="6" r="3.5" fill={preset.leafColor} />
+                                  <circle cx="18" cy="9" r="2.5" fill={preset.leafColor} />
+                                </>
+                              )}
+                              {key === "forest" && (
+                                <>
+                                  {/* Creative Forest Icon */}
+                                  <rect x="7" y="15" width="2.5" height="9" rx="1" fill="#795548" />
+                                  <ellipse cx="8.25" cy="14" rx="4.5" ry="3.5" fill={preset.leafColor} />
+
+                                  <rect x="13.5" y="12" width="3" height="12" rx="1.5" fill="#795548" />
+                                  <ellipse cx="15" cy="11" rx="5.5" ry="4" fill={preset.leafColor} />
+
+                                  <rect x="21" y="17" width="2" height="7" rx="1" fill="#795548" />
+                                  <ellipse cx="22" cy="16" rx="4" ry="3" fill={preset.leafColor} />
+                                </>
+                              )}
+                            </svg>
+                          </div>
+                          <div>
+                            <div className="font-bold text-sm text-white capitalize">{key}</div>
+                            <div className="text-xs text-forest-200 mt-1">
+                              {key === "formal" && "Straight trunk with symmetrical branches"}
+                              {key === "slanting" && "Trunk grows at an angle, shaped by winds"}
+                              {key === "cascade" && "Branches grow downward like cliff trees"}
+                              {key === "literati" && "Slender trunk with minimal branches"}
+                              {key === "forest" && "Multiple trees creating a forest scene"}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Background decorative elements */}
+                      <div className="absolute top-0 right-0 w-16 h-16 bg-forest-500/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                      <div className="absolute bottom-0 left-0 w-8 h-8 bg-forest-600/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </TabsContent>
 
             <TabsContent value="controls" className="space-y-4 mt-2">
               <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 shadow-lg">
@@ -442,69 +546,6 @@ export default function BonsaiGenerator() {
                       className="py-1"
                     />
                   </div>
-                </div>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="presets" className="mt-2">
-              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 shadow-lg">
-                <h3 className="text-lg font-bold mb-3 text-forest-100">Bonsai Styles</h3>
-                <div className="grid grid-cols-1 gap-3">
-                  {Object.entries(PRESETS).map(([key, preset]) => (
-                    <button
-                      key={key}
-                      className={cn(
-                        "group relative overflow-hidden rounded-xl p-1 transition-all",
-                        JSON.stringify(params) === JSON.stringify(preset)
-                          ? "ring-2 ring-white shadow-lg"
-                          : "hover:ring-1 hover:ring-white/50",
-                      )}
-                      onClick={() => applyPreset(key as keyof typeof PRESETS)}
-                    >
-                      <div
-                        className={cn(
-                          "relative z-10 bg-gradient-to-r from-forest-900/80 to-forest-800/80 rounded-lg p-3 text-left",
-                          JSON.stringify(params) === JSON.stringify(preset)
-                            ? "from-forest-700/90 to-forest-600/90"
-                            : "group-hover:from-forest-800/90 group-hover:to-forest-700/90",
-                        )}
-                      >
-                        <div className="flex items-start gap-3">
-                          <div className="w-10 h-10 rounded-full bg-forest-500/20 flex items-center justify-center">
-                            <div
-                              className="w-5 h-5 bg-forest-300"
-                              style={{
-                                clipPath:
-                                  key === "formal"
-                                    ? "polygon(50% 0%, 50% 100%, 50% 100%, 50% 0%)"
-                                    : key === "slanting"
-                                      ? "polygon(30% 0%, 70% 100%, 70% 100%, 30% 0%)"
-                                      : key === "cascade"
-                                        ? "polygon(50% 0%, 100% 100%, 100% 100%, 50% 0%)"
-                                        : key === "literati"
-                                          ? "polygon(40% 0%, 60% 100%, 60% 100%, 40% 0%)"
-                                          : "polygon(30% 0%, 40% 100%, 60% 100%, 70% 0%)",
-                              }}
-                            ></div>
-                          </div>
-                          <div>
-                            <div className="font-bold text-sm text-white capitalize">{key}</div>
-                            <div className="text-xs text-forest-200 mt-1">
-                              {key === "formal" && "Straight trunk with symmetrical branches"}
-                              {key === "slanting" && "Trunk grows at an angle, shaped by winds"}
-                              {key === "cascade" && "Branches grow downward like cliff trees"}
-                              {key === "literati" && "Slender trunk with minimal branches"}
-                              {key === "forest" && "Multiple trees creating a forest scene"}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Background decorative elements */}
-                      <div className="absolute top-0 right-0 w-16 h-16 bg-forest-500/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-                      <div className="absolute bottom-0 left-0 w-8 h-8 bg-forest-600/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
-                    </button>
-                  ))}
                 </div>
               </div>
             </TabsContent>
