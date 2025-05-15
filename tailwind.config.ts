@@ -90,6 +90,7 @@ const config = {
           900: "#252a1a",
           950: "#141709",
         },
+        "deep-forest": "#10261c",
       },
       borderRadius: {
         lg: "var(--radius)",

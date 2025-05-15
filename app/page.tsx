@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 };
 export default function Home() {
   return (
-    <main className="min-h-screen bg-black t  ext-white overflow-hidden relative">
+    <main className="min-h-screen bg-deep-forest text-white overflow-hidden relative">
       {/* Decorative elements */}
       <div className="absolute top-20 left-10 w-32 h-32 bg-forest-600/20 rounded-full blur-3xl"></div>
       <div className="absolute bottom-20 right-10 w-48 h-48 bg-forest-500/10 rounded-full blur-3xl"></div>
