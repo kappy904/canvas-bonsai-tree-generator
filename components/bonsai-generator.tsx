@@ -153,6 +153,7 @@ export default function BonsaiGenerator() {
     ctx.translate(startX, startY)
     drawBranch(ctx, 0, 0, params.treeHeight * 1.5, angle, params.trunkThickness, 0, params)
     ctx.restore()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params])
 
   // Recursive function to draw branches
