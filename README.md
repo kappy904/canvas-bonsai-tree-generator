@@ -1,4 +1,5 @@
 # Bonsai Tree Generator
+<img width="1172" alt="image" src="https://github.com/user-attachments/assets/29d868fd-573f-4e14-aa26-33e4674ac15b" />
 
 ## Overview
 
